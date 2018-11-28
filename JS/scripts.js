@@ -7,7 +7,31 @@ fetch('https://randomuser.me/api/?results=12&nat=us')
 const $gallery = $('#gallery');
 const $body = $('body');
 
+const addSearchBar = function() {
+  const $searchContainer = $('.search-container');
 
+  $searchContainer.append(
+    `<form action="#" method="get">
+        <input type="search" id="search-input" class="search-input" placeholder="Search...">
+        <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
+    </form>`
+  )
+
+    $searchContainer.submit((event)=> {
+      const $cards = $('.card');
+
+      $.each($cards, (index, card) =>{
+        if (!$(card).children('.card-info-container')
+                    .children('#name')
+                    .text().includes($('#search-input').val())) 
+              {
+          $(card).hide();
+        }else {
+          $(card).show();
+              }
+      });
+    });
+}();
 function generateCards(data) {
   //append cards markup to DOM
   for(let i = 0; i < data.results.length; i++) {
